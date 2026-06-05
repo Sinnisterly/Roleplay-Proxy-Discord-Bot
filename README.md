@@ -5,7 +5,9 @@ proxying** (Tupperbox-style - post as your characters via webhooks), rich
 character profiles, shared characters, IC relationships, moods, per-channel
 auto-proxy, staff moderation tools, and fully per-server configuration.
 
-Example of what the bot does:
+-Example of what the bot does:
+
+
 <img width="389" height="138" alt="image" src="https://github.com/user-attachments/assets/0d250a56-c612-40f3-afa8-4a2a5de3098e" />
 
 Every server the bot joins is **isolated**: its own characters, roles, channels,
