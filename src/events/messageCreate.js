@@ -8,7 +8,7 @@ export async function execute(message, client) {
   if (!message.guild) return;
 
   await runWithGuild(message.guild.id, async () => {
-    // Try edit prefix first (faster check — starts with `!e `)
+    // Check the edit prefix first - it's a quick "starts with `!e `" test
     const wasEdit = await handleEditPrefix(message, client);
     if (wasEdit) return;
 

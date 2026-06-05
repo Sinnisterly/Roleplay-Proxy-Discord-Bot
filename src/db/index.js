@@ -21,9 +21,9 @@ export function initDb() {
   log.info('DB', `Initialized at ${DB_PATH}`);
 }
 
-// Seed default config + relationship types for a single guild.
-// Idempotent (INSERT OR IGNORE) — safe to call on every startup and whenever
-// the bot joins a new guild. Existing, admin-customised values are preserved.
+// Seed default config and relationship types for a single guild.
+// Uses INSERT OR IGNORE, so it's safe to call on every startup and whenever the
+// bot joins a new guild. Anything an admin has already customized stays as-is.
 export function seedGuild(guildId) {
   if (!db) throw new Error('seedGuild called before initDb()');
 

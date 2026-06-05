@@ -54,7 +54,7 @@ export async function sendWebhookMessage(client, channel, { username, avatarURL,
   const wh = await getOrCreateWebhook(channel);
 
   const webhook = await client.fetchWebhook(wh.id, wh.token).catch(async () => {
-    // Webhook was deleted — recreate
+    // Webhook got deleted on Discord's side, so make a new one
     log.warn('Webhook', `Stored webhook for ${channel.id} is gone, recreating`);
     invalidateWebhook(channel.id);
     const fresh = await getOrCreateWebhook(channel);

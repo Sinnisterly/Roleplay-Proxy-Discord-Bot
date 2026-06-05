@@ -94,7 +94,7 @@ export function characterListEmbed(chars, targetUser, page, totalPages, showPend
 
   let description = lines.join('\n');
   if (showPendingNote) {
-    description += '\n\n⚠️ You have pending relationship requests — `/character relationship pending`';
+    description += '\n\n⚠️ You have pending relationship requests - `/character relationship pending`';
   }
   embed.setDescription(description);
   return embed;

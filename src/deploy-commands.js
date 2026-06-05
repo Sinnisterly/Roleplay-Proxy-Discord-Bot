@@ -19,10 +19,10 @@ for (const file of files) {
 
 const rest = new REST().setToken(process.env.BOT_TOKEN);
 
-// If GUILD_ID is set, deploy to that single guild — updates are instant, which
-// is convenient during development. Otherwise deploy globally so the bot's
-// commands are available in every server it joins (global commands can take up
-// to ~1 hour to propagate the first time).
+// If GUILD_ID is set, deploy to just that one guild. Updates show up instantly,
+// which is handy while developing. Otherwise deploy globally so the commands
+// work in every server the bot is in (the first global deploy can take up to an
+// hour to show up).
 const guildId = process.env.GUILD_ID;
 
 if (guildId) {

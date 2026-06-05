@@ -143,7 +143,7 @@ export function getAccessList(characterId) {
   return getDb().prepare('SELECT * FROM character_access WHERE character_id = ?').all(characterId);
 }
 
-// For trigger matching — returns all main triggers + aliases a user can fire
+// For trigger matching: returns every main trigger plus aliases a user can fire
 export function getAllTriggersForUser(userId, roleIds = []) {
   const gid = currentGuildId();
   const accessClause = roleIds.length === 0
@@ -169,7 +169,7 @@ export function getAllTriggersForUser(userId, roleIds = []) {
   `).all(...args, ...args);
 }
 
-// ── Aliases ───────────────────────────────────────────────────────────────────
+// --- Aliases ---
 
 export function getAliasesForCharacter(characterId) {
   return getDb().prepare(
@@ -189,7 +189,7 @@ export function removeAlias(characterId, trigger) {
   ).run(characterId, trigger);
 }
 
-// ── Channel autopilot ─────────────────────────────────────────────────────────
+// --- Channel autopilot ---
 
 export function getChannelAutopilot(userId, channelId) {
   const row = getDb().prepare(
@@ -221,7 +221,7 @@ export function getChannelAutopilotList(userId) {
   `).all(currentGuildId(), userId);
 }
 
-// ── Status & color ────────────────────────────────────────────────────────────
+// --- Status & color ---
 
 export function setCharacterStatus(id, status) {
   getDb().prepare('UPDATE characters SET status = ? WHERE id = ? AND guild_id = ?')
@@ -233,7 +233,7 @@ export function setCharacterColor(id, color) {
     .run(color, id, currentGuildId());
 }
 
-// ── Relationships ─────────────────────────────────────────────────────────────
+// --- Relationships ---
 
 export function createRelationshipRequest(requesterCharId, targetCharId, type) {
   return getDb().prepare(`

@@ -28,7 +28,7 @@ export const data = new SlashCommandBuilder()
   .setName('character-admin')
   .setDescription('Senior staff tools for the proxy system')
 
-  // ── User group ──────────────────────────────────────────────────────────────
+  // --- User group ---
   .addSubcommandGroup(g => g
     .setName('user')
     .setDescription('Full user moderation')
@@ -56,7 +56,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Character group ─────────────────────────────────────────────────────────
+  // --- Character group ---
   .addSubcommandGroup(g => g
     .setName('character')
     .setDescription('Manage any user\'s characters')
@@ -88,7 +88,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: roles ───────────────────────────────────────────────────────────
+  // --- Config: roles ---
   .addSubcommandGroup(g => g
     .setName('config-roles')
     .setDescription('Manage role tier assignments')
@@ -123,7 +123,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand(s => s.setName('list').setDescription('Show all configured role tiers'))
   )
 
-  // ── Config: channels ────────────────────────────────────────────────────────
+  // --- Config: channels ---
   .addSubcommandGroup(g => g
     .setName('config-channels')
     .setDescription('Configure logging channels')
@@ -141,7 +141,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: triggers ────────────────────────────────────────────────────────
+  // --- Config: triggers ---
   .addSubcommandGroup(g => g
     .setName('config-triggers')
     .setDescription('Configure proxy triggers and prefixes')
@@ -159,7 +159,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: limits ──────────────────────────────────────────────────────────
+  // --- Config: limits ---
   .addSubcommandGroup(g => g
     .setName('config-limits')
     .setDescription('Configure system limits')
@@ -188,7 +188,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: logging ─────────────────────────────────────────────────────────
+  // --- Config: logging ---
   .addSubcommandGroup(g => g
     .setName('config-logging')
     .setDescription('Toggle logging options')
@@ -208,7 +208,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: lists (moods / ranks / clans) ───────────────────────────────────
+  // --- Config: lists (moods / ranks / clans) ---
   .addSubcommandGroup(g => g
     .setName('config-lists')
     .setDescription('Manage moods, ranks, and clans')
@@ -252,10 +252,10 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Config: view all ────────────────────────────────────────────────────────
+  // --- Config: view all ---
   .addSubcommand(s => s.setName('config-view').setDescription('View all current config settings'))
 
-  // ── Templates ───────────────────────────────────────────────────────────────
+  // --- Templates ---
   .addSubcommandGroup(g => g
     .setName('templates')
     .setDescription('Manage character templates')
@@ -275,7 +275,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand(s => s.setName('list').setDescription('List all templates'))
   )
 
-  // ── Shared / NPC characters ─────────────────────────────────────────────────
+  // --- Shared / NPC characters ---
   .addSubcommandGroup(g => g
     .setName('shared')
     .setDescription('Manage shared / NPC characters')
@@ -311,7 +311,7 @@ export const data = new SlashCommandBuilder()
     )
   )
 
-  // ── Relationship types ──────────────────────────────────────────────────────
+  // --- Relationship types ---
   .addSubcommandGroup(g => g
     .setName('config-relationship-types')
     .setDescription('Manage IC relationship types')
@@ -328,7 +328,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand(s => s.setName('list').setDescription('List all relationship types'))
   )
 
-  // ── Staff relationship management ───────────────────────────────────────────
+  // --- Staff relationship management ---
   .addSubcommandGroup(g => g
     .setName('relationships')
     .setDescription('View and remove any character\'s relationships')
@@ -345,7 +345,7 @@ export const data = new SlashCommandBuilder()
     )
   );
 
-// ── Execute ──────────────────────────────────────────────────────────────────
+// --- Execute ---
 
 export async function execute(interaction, client) {
   if (!await requireSeniorStaff(interaction)) return;
@@ -438,7 +438,7 @@ export async function autocomplete(interaction) {
   }
 }
 
-// ── User handlers ─────────────────────────────────────────────────────────────
+// --- User handlers ---
 
 async function handleBlock(interaction, client) {
   const target = interaction.options.getUser('user');
@@ -463,7 +463,7 @@ async function handleUnblock(interaction, client) {
 async function handleHistory(interaction) {
   const target  = interaction.options.getUser('user');
   const history = getModHistory(target.id, 20);
-  const embed   = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Mod History — ${target.tag}`);
+  const embed   = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Mod History - ${target.tag}`);
 
   embed.setDescription(
     history.length === 0
@@ -482,7 +482,7 @@ async function handleHistory(interaction) {
 async function handleStatus(interaction) {
   const target = interaction.options.getUser('user');
   const status = getUserStatus(target.id);
-  const embed  = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Status — ${target.tag}`);
+  const embed  = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Status - ${target.tag}`);
 
   if (!status) {
     embed.setDescription('No restrictions on record.');
@@ -490,7 +490,7 @@ async function handleStatus(interaction) {
     const lines = [];
     lines.push(`**Blocked:** ${status.is_blocked ? '🔴 Yes' : '🟢 No'}`);
     lines.push(status.timeout_until && status.timeout_until > Date.now()
-      ? `**Timed out:** Yes — expires ${tsToDiscord(status.timeout_until)}`
+      ? `**Timed out:** Yes - expires ${tsToDiscord(status.timeout_until)}`
       : '**Timed out:** 🟢 No'
     );
     embed.setDescription(lines.join('\n'));
@@ -499,12 +499,12 @@ async function handleStatus(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Character handlers ────────────────────────────────────────────────────────
+// --- Character handlers ---
 
 async function handleCharList(interaction) {
   const target = interaction.options.getUser('user');
   const chars  = getUserCharacters(target.id);
-  const embed  = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Characters — ${target.tag}`)
+  const embed  = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Characters - ${target.tag}`)
     .setDescription(
       chars.length === 0
         ? 'No characters.'
@@ -557,7 +557,7 @@ async function handleCharTransfer(interaction, client) {
   await interaction.reply({ embeds: [successEmbed(`**${char.name}** transferred to <@${to.id}>.`)], ephemeral: true });
 }
 
-// ── Config handlers ───────────────────────────────────────────────────────────
+// --- Config handlers ---
 
 async function handleRoleAdd(interaction) {
   const tier = interaction.options.getString('tier');
@@ -667,7 +667,7 @@ async function handleConfigView(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Template handlers ─────────────────────────────────────────────────────────
+// --- Template handlers ---
 
 async function handleTemplateCreate(interaction) {
   const name        = interaction.options.getString('name').trim();
@@ -691,7 +691,7 @@ async function handleTemplateList(interaction) {
       templates.length === 0
         ? '*No templates yet.*'
         : templates.map(t =>
-            `**${t.name}**${t.description ? ` — ${t.description}` : ''}` +
+            `**${t.name}**${t.description ? ` - ${t.description}` : ''}` +
             (t.preset_clan ? ` · Clan: ${t.preset_clan}` : '') +
             (t.preset_rank ? ` · Rank: ${t.preset_rank}` : '')
           ).join('\n')
@@ -699,7 +699,7 @@ async function handleTemplateList(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Shared / NPC handlers ─────────────────────────────────────────────────────
+// --- Shared / NPC handlers ---
 
 async function handleSharedCreate(interaction) {
   const attachment = interaction.options.getAttachment('file-avatar');
@@ -854,7 +854,7 @@ async function handleSharedAccess(interaction) {
   const users  = grants.filter(g => g.grantee_user_id).map(g => `<@${g.grantee_user_id}>`);
   const roles  = grants.filter(g => g.grantee_role_id).map(g => `<@&${g.grantee_role_id}>`);
 
-  const embed = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Access — ${char.name}`)
+  const embed = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Access - ${char.name}`)
     .addFields(
       { name: 'Users',  value: users.join('\n').slice(0, 1024)  || '*None*', inline: true },
       { name: 'Roles',  value: roles.join('\n').slice(0, 1024)  || '*None*', inline: true },
@@ -862,7 +862,7 @@ async function handleSharedAccess(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Relationship type handlers ────────────────────────────────────────────────
+// --- Relationship type handlers ---
 
 async function handleRelTypeAdd(interaction) {
   const value = interaction.options.getString('value').trim().toLowerCase();
@@ -883,7 +883,7 @@ async function handleRelTypeList(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Staff relationship management handlers ────────────────────────────────────
+// --- Staff relationship management handlers ---
 
 async function handleStaffRelList(interaction) {
   const user      = interaction.options.getUser('user');
@@ -895,7 +895,7 @@ async function handleStaffRelList(interaction) {
   const approved = getApprovedRelationships(char.id);
   const pending  = getPendingRelationshipsForUser(user.id).filter(r => r.requester_char_id === char.id || r.target_char_id === char.id);
 
-  const embed = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Relationships — ${char.name}`);
+  const embed = new EmbedBuilder().setColor(0x2b2d31).setTitle(`Relationships - ${char.name}`);
   const lines = [];
 
   if (approved.length) {

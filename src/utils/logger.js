@@ -64,12 +64,12 @@ export async function logProxyDelete(client, { user, character, content, channel
 }
 
 export async function logModAction(client, { moderator, target, action, reason, extra = '' }) {
-  // Always surface mod actions in the terminal, regardless of the Discord-channel toggle
-  log.info('Mod', `${action} — ${moderator.tag} → ${target.tag} | ${reason}${extra ? ` | ${extra.replace(/<[@#&!]+\d+>/g, '').trim()}` : ''}`);
+  // Always print mod actions to the terminal, even if the Discord channel logging is off
+  log.info('Mod', `${action} - ${moderator.tag} → ${target.tag} | ${reason}${extra ? ` | ${extra.replace(/<[@#&!]+\d+>/g, '').trim()}` : ''}`);
   if (getConfig('mod_logging_enabled') !== 'true') return;
   const embed = new EmbedBuilder()
     .setColor(0xeb459e)
-    .setTitle(`Mod Action — ${action}`)
+    .setTitle(`Mod Action - ${action}`)
     .addFields(
       { name: 'Moderator', value: `<@${moderator.id}> (${moderator.tag})`, inline: true },
       { name: 'Target',    value: `<@${target.id}> (${target.tag})`,       inline: true },

@@ -7,7 +7,7 @@ export const name = 'guildCreate';
 export function execute(guild) {
   try {
     seedGuild(guild.id);
-    log.info('Guild', `Joined ${guild.name} (${guild.id}) — seeded default config`);
+    log.info('Guild', `Joined ${guild.name} (${guild.id}) - seeded default config`);
   } catch (err) {
     log.error('Guild', `Failed to seed new guild ${guild.id}:`, err);
   }

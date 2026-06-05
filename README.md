@@ -1,32 +1,32 @@
 # RP Proxy Bot
 
 A multi-guild Discord bot for roleplay servers. It provides **character
-proxying** (Tupperbox-style — post as your characters via webhooks), rich
+proxying** (Tupperbox-style - post as your characters via webhooks), rich
 character profiles, shared characters, IC relationships, moods, per-channel
 auto-proxy, staff moderation tools, and fully per-server configuration.
 
 Every server the bot joins is **isolated**: its own characters, roles, channels,
 lists, moderation state, and settings. Add the bot to as many servers as you
-like — nothing is shared between them.
+like - nothing is shared between them.
 
 ---
 
 ## Features
 
-- **Proxying** — trigger-based (`Mira: hello`), per-user default trigger,
+- **Proxying** - trigger-based (`Mira: hello`), per-user default trigger,
   per-channel auto-proxy, and trigger aliases. Messages are reposted through a
   per-channel webhook and the original is deleted.
-- **Editing & deleting** proxied messages — reply with `!e <new text>`, the ✏️
+- **Editing & deleting** proxied messages - reply with `!e <new text>`, the ✏️
   reaction, or a button.
-- **OOC notation** — `text ((ooc note))` renders the note as a footer embed.
-- **Character profiles** — pronouns, bio, appearance, personality, backstory,
+- **OOC notation** - `text ((ooc note))` renders the note as a footer embed.
+- **Character profiles** - pronouns, bio, appearance, personality, backstory,
   clan, rank, age, birthday, doc link, color, avatar.
-- **Moods** — appended to the proxy name (`Mira [Injured]`), auto-expiring.
-- **Shared characters** — grant access to specific users or roles.
-- **IC relationships** — request/approve relationships between characters.
-- **Moderation** — block/timeout users from proxying, with full audit history.
-- **Logging** — proxy activity and mod actions to configurable channels.
-- **Per-server config** — role tiers, selectable lists (mood/rank/clan),
+- **Moods** - appended to the proxy name (`Mira [Injured]`), auto-expiring.
+- **Shared characters** - grant access to specific users or roles.
+- **IC relationships** - request/approve relationships between characters.
+- **Moderation** - block/timeout users from proxying, with full audit history.
+- **Logging** - proxy activity and mod actions to configurable channels.
+- **Per-server config** - role tiers, selectable lists (mood/rank/clan),
   templates, relationship types, and channels, all managed via slash commands.
 
 ---
@@ -49,8 +49,8 @@ like — nothing is shared between them.
 2. **Bot** tab → **Reset Token** → copy the token (this is your `BOT_TOKEN`).
 3. On the **Bot** tab, enable these **Privileged Gateway Intents** (both are
    required):
-   - **Message Content Intent** — needed to read messages for proxying.
-   - **Server Members Intent** — needed for role/permission checks.
+   - **Message Content Intent** - needed to read messages for proxying.
+   - **Server Members Intent** - needed for role/permission checks.
 4. **General Information** tab → copy the **Application ID** (this is your
    `APPLICATION_ID`).
 
@@ -77,26 +77,26 @@ This repo does **not** include an `.env` file (secrets must never be committed).
 Create one in the project root named `.env`:
 
 ```dotenv
-# Required — from the Developer Portal
+# Required - from the Developer Portal
 BOT_TOKEN=your-bot-token-here
 APPLICATION_ID=your-application-id-here
 
-# Optional — if set, slash commands deploy to ONLY this guild (instant updates,
+# Optional - if set, slash commands deploy to ONLY this guild (instant updates,
 # great for development). Leave it unset/blank to deploy commands GLOBALLY to
 # every server the bot is in (recommended for multi-guild; first global deploy
 # can take up to ~1 hour to appear).
 GUILD_ID=
 
-# Optional — where the SQLite database lives (created automatically)
+# Optional - where the SQLite database lives (created automatically)
 DB_PATH=./data/bot.db
 
-# Optional — the bot's "Playing ..." status text
+# Optional - the bot's "Playing ..." status text
 BOT_ACTIVITY=roleplay
 
-# Optional — the underlying webhook name (per-message names override this)
+# Optional - the underlying webhook name (per-message names override this)
 WEBHOOK_NAME=RP Proxy
 
-# Optional — log verbosity: error | warn | info | debug
+# Optional - log verbosity: error | warn | info | debug
 LOG_LEVEL=info
 ```
 
@@ -134,16 +134,16 @@ bootstrap a fresh server. Run these once per server:
    /character-admin config-roles add tier:staff role:@Staff
    /character-admin config-roles add tier:senior_staff role:@Senior Staff
    ```
-   - `roleplayer` — can create and use characters / proxy.
-   - `staff` — moderation (timeout, history).
-   - `senior_staff` — full config, blocks, templates, character transfers.
+   - `roleplayer` - can create and use characters / proxy.
+   - `staff` - moderation (timeout, history).
+   - `senior_staff` - full config, blocks, templates, character transfers.
 
 2. **Set logging channels** (optional but recommended):
    ```
    /character-admin config-channels set ...   # staff + audit log channels
    ```
 
-3. **Populate selectable lists** (optional) — moods, ranks, clans:
+3. **Populate selectable lists** (optional) - moods, ranks, clans:
    ```
    /character-admin config-lists ...
    ```
@@ -168,7 +168,7 @@ The bot uses a single SQLite database, but **every table is keyed by
 (`interactionCreate`, `messageCreate`, `messageReactionAdd`) and stored in an
 [`AsyncLocalStorage`](https://nodejs.org/api/async_context.html) context
 (`src/db/context.js`). The query layer reads that context and automatically
-scopes every read and write to the current server — so command and event code
+scopes every read and write to the current server - so command and event code
 never has to pass a guild id around, and data can never leak between servers.
 
 When the bot joins a new guild (`guildCreate`) or starts up, default config is

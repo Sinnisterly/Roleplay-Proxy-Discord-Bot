@@ -15,7 +15,7 @@ export function execute(client) {
     }
   }
 
-  log.info('Ready', `Logged in as ${client.user.tag} — serving ${client.guilds.cache.size} guild(s)`);
+  log.info('Ready', `Logged in as ${client.user.tag} - serving ${client.guilds.cache.size} guild(s)`);
   // Global presence shared across all guilds. Override via BOT_ACTIVITY in .env.
   const activity = process.env.BOT_ACTIVITY ?? 'roleplay';
   client.user.setActivity(activity, { type: 0 });

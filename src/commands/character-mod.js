@@ -123,7 +123,7 @@ async function handleHistory(interaction) {
 
   const embed = new EmbedBuilder()
     .setColor(0x2b2d31)
-    .setTitle(`Mod History — ${target.tag}`)
+    .setTitle(`Mod History - ${target.tag}`)
     .setThumbnail(target.displayAvatarURL());
 
   if (history.length === 0) {
@@ -147,7 +147,7 @@ async function handleStatus(interaction) {
 
   const embed = new EmbedBuilder()
     .setColor(0x2b2d31)
-    .setTitle(`Status — ${target.tag}`);
+    .setTitle(`Status - ${target.tag}`);
 
   if (!status) {
     embed.setDescription('No restrictions on record.');
@@ -155,7 +155,7 @@ async function handleStatus(interaction) {
     const lines = [];
     lines.push(`**Blocked:** ${status.is_blocked ? '🔴 Yes' : '🟢 No'}`);
     if (status.timeout_until && status.timeout_until > Date.now()) {
-      lines.push(`**Timed out:** Yes — expires ${tsToDiscord(status.timeout_until)}`);
+      lines.push(`**Timed out:** Yes - expires ${tsToDiscord(status.timeout_until)}`);
     } else {
       lines.push('**Timed out:** 🟢 No');
     }
@@ -172,7 +172,7 @@ async function handleCharList(interaction) {
 
   const embed = new EmbedBuilder()
     .setColor(0x2b2d31)
-    .setTitle(`Characters — ${target.tag}`)
+    .setTitle(`Characters - ${target.tag}`)
     .setDescription(
       chars.length === 0
         ? 'No characters found.'

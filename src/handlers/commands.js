@@ -12,7 +12,7 @@ export async function loadCommands(client) {
   for (const file of files) {
     const command = await import(`../commands/${file}`);
     if (!command.data || !command.execute) {
-      log.warn('Commands', `Skipping ${file} — missing data or execute export`);
+      log.warn('Commands', `Skipping ${file} - missing data or execute export`);
       continue;
     }
     client.commands.set(command.data.name, command);

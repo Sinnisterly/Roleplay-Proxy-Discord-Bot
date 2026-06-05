@@ -21,7 +21,7 @@ import { pendingCreations } from '../utils/pendingState.js';
 
 const CHARS_PER_PAGE = 5;
 
-// ── Command definition ────────────────────────────────────────────────────────
+// --- Command definition ---
 
 export const data = new SlashCommandBuilder()
   .setName('character')
@@ -190,7 +190,7 @@ export const data = new SlashCommandBuilder()
   )
   .addSubcommand(s => s.setName('leaderboard').setDescription('See the most active characters on the server'));
 
-// ── Execute ──────────────────────────────────────────────────────────────────
+// --- Execute ---
 
 export async function execute(interaction, client) {
   if (!await requireRoleplayer(interaction)) return;
@@ -230,7 +230,7 @@ export async function execute(interaction, client) {
   }
 }
 
-// ── Autocomplete ─────────────────────────────────────────────────────────────
+// --- Autocomplete ---
 
 export async function autocomplete(interaction) {
   const focused = interaction.options.getFocused(true);
@@ -272,7 +272,7 @@ export async function autocomplete(interaction) {
     );
   }
 
-  // Their character — search all characters excluding own
+  // Their character: search every character except the user's own
   if (focused.name === 'their-character') {
     const results = searchCharacters({ name: focused.value || undefined });
     return interaction.respond(
@@ -282,7 +282,7 @@ export async function autocomplete(interaction) {
     );
   }
 
-  // Relationship remove — autocomplete existing approved relationships
+  // Relationship remove: suggest the character's existing approved relationships
   if (focused.name === 'relationship' && group === 'relationship' && sub === 'remove') {
     const charName = interaction.options.getString('my-character');
     if (!charName) return interaction.respond([]);
@@ -299,7 +299,7 @@ export async function autocomplete(interaction) {
   }
 }
 
-// ── Subcommand handlers ───────────────────────────────────────────────────────
+// --- Subcommand handlers ---
 
 async function handleCreate(interaction) {
   const attachment = interaction.options.getAttachment('file-avatar');
@@ -372,7 +372,7 @@ async function handleEdit(interaction) {
 
   const modal = new ModalBuilder()
     .setCustomId(`char_edit:${char.id}`)
-    .setTitle(`Edit — ${char.name}`)
+    .setTitle(`Edit - ${char.name}`)
     .addComponents(
       row(text('name',    'Name',         TextInputStyle.Short,     true,  null,                                    1, 80,  char.name)),
       row(text('pronouns','Pronouns',     TextInputStyle.Short,     false, 'e.g. she/her',                          1, 50,  char.pronouns ?? '')),
@@ -439,7 +439,7 @@ async function handleLore(interaction) {
 
   const modal = new ModalBuilder()
     .setCustomId(`char_profile:${char.id}`)
-    .setTitle(`Lore — ${char.name}`)
+    .setTitle(`Lore - ${char.name}`)
     .addComponents(
       row(text('appearance',  'Appearance',  TextInputStyle.Paragraph, false, null, 0, 1000, char.appearance)),
       row(text('personality', 'Personality', TextInputStyle.Paragraph, false, null, 0, 1000, char.personality)),
@@ -703,7 +703,7 @@ async function handleExport(interaction) {
   await interaction.reply({ files: [file], ephemeral: true });
 }
 
-// ── Alias handlers ───────────────────────────────────────────────────────────
+// --- Alias handlers ---
 
 async function handleAliasAdd(interaction) {
   const charName = interaction.options.getString('name');
@@ -738,7 +738,7 @@ async function handleAliasList(interaction) {
   if (!char) return interaction.reply({ embeds: [errorEmbed('Character not found.')], ephemeral: true });
 
   const aliases = getAliasesForCharacter(char.id);
-  const embed   = new EmbedBuilder().setColor(char.color ?? 0x2b2d31).setTitle(`Aliases — ${char.name}`)
+  const embed   = new EmbedBuilder().setColor(char.color ?? 0x2b2d31).setTitle(`Aliases - ${char.name}`)
     .setDescription(
       aliases.length === 0
         ? `No aliases set. Main trigger: \`${char.trigger}\``
@@ -747,7 +747,7 @@ async function handleAliasList(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 }
 
-// ── Channel autopilot handlers ─────────────────────────────────────────────────
+// --- Channel autopilot handlers ---
 
 async function handleChannelProxySet(interaction) {
   const channel  = interaction.options.getChannel('channel');
@@ -816,7 +816,7 @@ export async function handleChannelProxyListPage(interaction, [pageStr, invokerI
   await interaction.update({ embeds: [embed], components });
 }
 
-// ── Status handler ────────────────────────────────────────────────────────────
+// --- Status handler ---
 
 async function handleStatus(interaction) {
   const charName = interaction.options.getString('name');
@@ -830,7 +830,7 @@ async function handleStatus(interaction) {
   await interaction.reply({ embeds: [successEmbed(`**${char.name}** marked as **${label}**.`)], ephemeral: true });
 }
 
-// ── Color handler ─────────────────────────────────────────────────────────────
+// --- Color handler ---
 
 const COLOR_PRESETS = [
   { label: 'Forest Green',  value: String(0x2D5A27), description: '#2D5A27' },
@@ -905,7 +905,7 @@ export async function handleColorCustomModal(interaction, charId) {
   await interaction.reply({ embeds: [successEmbed(`Color updated for **${char.name}**.`)], ephemeral: true });
 }
 
-// ── Relationship handlers ─────────────────────────────────────────────────────
+// --- Relationship handlers ---
 
 async function handleRelationshipRequest(interaction) {
   const myCharName    = interaction.options.getString('my-character');
@@ -924,7 +924,7 @@ async function handleRelationshipRequest(interaction) {
 
   createRelationshipRequest(myChar.id, theirChar.id, type);
 
-  // Ping target owner in channel — auto-deletes after 5 minutes
+  // Ping the target's owner in the channel. The ping deletes itself after 5 minutes.
   const ping = await interaction.channel.send(
     `<@${theirChar.owner_id}> **${myChar.name}** wants to define a relationship with **${theirChar.name}** *(${type})*.\nRun \`/character relationship pending\` to approve or deny.`
   ).catch(() => null);
@@ -1014,7 +1014,7 @@ export async function handleRelationshipDeny(interaction, relId) {
   await interaction.update({ embeds: [successEmbed('Request denied.')], components: [] });
 }
 
-// ── Search handler ────────────────────────────────────────────────────────────
+// --- Search handler ---
 
 const SEARCH_PER_PAGE = 10;
 
@@ -1130,7 +1130,7 @@ export async function handleSearchBack(interaction, [searchKey, invokerId]) {
   });
 }
 
-// ── Leaderboard handler ───────────────────────────────────────────────────────
+// --- Leaderboard handler ---
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 const TITLES = [
@@ -1170,7 +1170,7 @@ async function handleLeaderboard(interaction) {
   await interaction.reply({ embeds: [embed], ephemeral: false });
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// --- Helpers ---
 
 function text(customId, label, style, required, placeholder, minLength, maxLength, value) {
   const input = new TextInputBuilder()
@@ -1181,7 +1181,7 @@ function text(customId, label, style, required, placeholder, minLength, maxLengt
     .setMinLength(minLength)
     .setMaxLength(maxLength);
   if (placeholder) input.setPlaceholder(placeholder);
-  // Skip empty pre-fills — Discord rejects a value shorter than minLength
+  // Don't pre-fill with an empty string - Discord rejects values shorter than minLength
   if (value !== undefined && value !== null && value !== '') input.setValue(value);
   return input;
 }
@@ -1195,7 +1195,7 @@ function countActive(chars) {
   return chars.filter(c => (c.status ?? 'active') === 'active').length;
 }
 
-// ── Tupperbox import ──────────────────────────────────────────────────────────
+// --- Tupperbox import ---
 
 function mapTupper(tupper) {
   return {
@@ -1249,7 +1249,7 @@ async function handleTupperImport(interaction) {
 
     const select = new StringSelectMenuBuilder()
       .setCustomId(`tupper_import_select:${interaction.id}`)
-      .setPlaceholder(`${available.length} character(s) found — select one to import`)
+      .setPlaceholder(`${available.length} character(s) found - select one to import`)
       .addOptions(available.map((t, i) => ({
         label:       t.name.slice(0, 100),
         description: `Trigger: ${t.brackets?.[0] ?? t.name + ':'}`,
@@ -1274,7 +1274,7 @@ async function handleTupperImport(interaction) {
 export async function showTupperModal(interaction, mapped, pendingKey) {
   const modal = new ModalBuilder()
     .setCustomId(`tupper_create:${pendingKey}`)
-    .setTitle(`Import — ${mapped.name.slice(0, 40)}`)
+    .setTitle(`Import - ${mapped.name.slice(0, 40)}`)
     .addComponents(
       row(text('name',     'Name',         TextInputStyle.Short,     true,  null,             1, 80,   mapped.name)),
       row(text('pronouns', 'Pronouns',     TextInputStyle.Short,     false, 'e.g. she/her',   0, 50,   '')),

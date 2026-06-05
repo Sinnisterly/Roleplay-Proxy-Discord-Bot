@@ -69,7 +69,7 @@ async function dispatchInteraction(interaction, client) {
   }
 }
 
-// ── Modal handlers ──────────────────────────────────────────────────────────
+// --- Modal handlers ---
 
 async function handleModalSubmit(interaction, client) {
   const [prefix, ...parts] = interaction.customId.split(':');
@@ -122,7 +122,7 @@ async function handleModalSubmit(interaction, client) {
   }
 }
 
-// ── Button handlers ──────────────────────────────────────────────────────────
+// --- Button handlers ---
 
 async function handleButton(interaction, client) {
   const [action, ...parts] = interaction.customId.split(':');
@@ -198,7 +198,7 @@ async function handleButton(interaction, client) {
   }
 }
 
-// ── Select menu handlers ─────────────────────────────────────────────────────
+// --- Select menu handlers ---
 
 async function handleSelectMenu(interaction) {
   const [action, ...parts] = interaction.customId.split(':');

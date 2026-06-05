@@ -12,7 +12,7 @@ export async function loadEvents(client) {
   for (const file of files) {
     const event = await import(`../events/${file}`);
     if (!event.name || !event.execute) {
-      log.warn('Events', `Skipping ${file} — missing name or execute export`);
+      log.warn('Events', `Skipping ${file} - missing name or execute export`);
       continue;
     }
     if (event.once) {

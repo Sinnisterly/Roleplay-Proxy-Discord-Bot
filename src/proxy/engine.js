@@ -7,7 +7,8 @@ import { logProxyPost } from '../utils/logger.js';
 import { log } from '../utils/log.js';
 import { clearExpiredMoods } from '../db/queries/characters.js';
 
-// OOC notation: text ((ooc note)) → strips from message, adds footer embed
+// OOC notation: anything inside ((double parens)) gets pulled out of the
+// message and shown as a footer instead.
 const OOC_REGEX = /\(\((.+?)\)\)/gs;
 
 function parseOOC(content) {
@@ -23,9 +24,9 @@ function buildWebhookUsername(character) {
   let name = character.name;
   if (character.pronouns) name += ` (${character.pronouns})`;
   if (character.current_mood) {
-    // Check if mood is expired
+    // Skip moods that have already expired - the periodic job will clear them
     if (character.mood_expires_at && character.mood_expires_at <= Date.now()) {
-      // Will be cleared by the periodic job — skip for now
+      // nothing to add here
     } else {
       name += ` [${character.current_mood}]`;
     }
@@ -50,7 +51,7 @@ export async function handleProxyMessage(message, client) {
   const block = checkProxyAllowed(message.author.id);
   if (block) return false;
 
-  // Clear expired moods periodically (lightweight — runs on every proxy check)
+  // Clear expired moods. This is cheap, so it's fine to run on every proxy check.
   clearExpiredMoods();
 
   const content = message.content;
@@ -60,7 +61,7 @@ export async function handleProxyMessage(message, client) {
   let character = null;
   let messageText = '';
 
-  // Check default proxy trigger — channel autopilot takes priority over server-wide default
+  // Default proxy trigger. A per-channel autopilot character wins over the server-wide default.
   if (content.startsWith(defaultTrigger + ' ') || content === defaultTrigger) {
     character = getChannelAutopilot(userId, message.channel.id) ?? getDefaultCharacter(userId);
     if (!character) return false;
