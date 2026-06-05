@@ -1,0 +1,30 @@
+# Secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# Database (per-server data, tokens, characters)
+data/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Runtime / process managers
+.pm2/
+
+# Editor / OS noise
+.vscode/
+.idea/
+.qodo/
+.DS_Store
+Thumbs.db
